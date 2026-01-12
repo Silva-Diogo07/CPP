@@ -1,7 +1,7 @@
 #include <raylib.h>
 
 int main() {
-    InitWindow(800, 600, "Hello Raylib");
+    InitWindow(800, 600, "Hello World!");
     SetTargetFPS(60);
 
     while (!WindowShouldClose()) {
