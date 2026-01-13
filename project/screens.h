@@ -21,6 +21,12 @@ void updateShop(Screen& screen, int& money,
                 const Button& buyBtn, const Button& nextBtn,
                 const Button& prevBtn, const Button& backBtn);
 
+// Pure logic variant for unit testing (buttons represented as booleans)
+void updateShopLogic(Screen& screen, int& money,
+                     std::vector<Car>& shopCars, std::vector<Car>& garage,
+                     int& shopIndex,
+                     bool buyPressed, bool nextPressed, bool prevPressed, bool backPressed);
+
 void drawShop(int money,
               const std::vector<Car>& shopCars, const std::vector<Car>& garage,
               int shopIndex,
@@ -30,6 +36,10 @@ void drawShop(int money,
 // ---------------- GARAGE ----------------
 void updateGarage(Screen& screen, std::vector<Car>& garage, int& garageIndex,
                   const Button& nextBtn, const Button& prevBtn, const Button& backBtn);
+
+// Pure logic variant for unit testing (buttons represented as booleans)
+void updateGarageLogic(Screen& screen, std::vector<Car>& garage, int& garageIndex,
+                       bool nextPressed, bool prevPressed, bool backPressed);
 
 void drawGarage(const std::vector<Car>& garage, int garageIndex,
                 const Button& nextBtn, const Button& prevBtn, const Button& backBtn);
