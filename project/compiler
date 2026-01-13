@@ -1,1 +1,3 @@
-// compile : g++ main.cpp screens.cpp button.cpp -o jogo -lraylib -lGL -lm -lpthread -ldl -lrt -lX11
+
+
+//   g++ main.cpp screens.cpp button.cpp -o jogo -lraylib -lGL -lm -lpthread -ldl -lrt -lX11
