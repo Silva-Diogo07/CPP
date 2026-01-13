@@ -1,0 +1,67 @@
+#include <raylib.h>
+#include <vector>
+
+#include "struct.h"
+#include "screens.h"
+#include "button.h"
+
+using namespace std;
+
+int main() {
+    InitWindow(900, 600, "Mini Jogo");
+    SetTargetFPS(60);
+
+    Screen screen = MENU;
+    int money = 999999;
+
+    vector<Car> shopCars = {
+        {"Supra", 1997, 100000, 1.0f, 500, 1000},
+        {"Civic", 2000, 50000, 20.0f, 120, 90},
+        {"Corolla", 2010, 30000, 30.0f, 90, 60}
+    };
+
+    vector<Car> garage;
+    int shopIndex = 0;
+    int garageIndex = 0;
+
+    // ---------- BOTÕES ----------
+    Button playBtn   = {{350, 180, 200, 60}, "JOGAR", GRAY};
+    Button garageBtn = {{350, 260, 200, 60}, "GARAGEM", GRAY};
+    Button shopBtn   = {{350, 340, 200, 60}, "TCAR", GRAY};
+
+    Button buyBtn   = {{350, 470, 200, 50}, "COMPRAR", GREEN};
+    Button backBtn  = {{20, 540, 160, 40}, "MENU", GRAY};
+    Button nextBtn  = {{780, 300, 80, 40}, ">", GRAY};
+    Button prevBtn  = {{40, 300, 80, 40}, "<", GRAY};
+
+    while (!WindowShouldClose())
+    {
+        DrawText(TextFormat("FPS: %d", GetFPS()), 20, 50, 20, RED);
+
+        BeginDrawing();
+        ClearBackground(RAYWHITE);
+
+        switch(screen)
+        {
+            case MENU:
+                updateMenu(screen, money, playBtn, garageBtn, shopBtn);
+                drawMenu(money, playBtn, garageBtn, shopBtn);
+                break;
+
+            case CONCESSIONARIA:
+                updateShop(screen, money, shopCars, garage, shopIndex, buyBtn, nextBtn, prevBtn, backBtn);
+                drawShop(money, shopCars, garage, shopIndex, buyBtn, nextBtn, prevBtn, backBtn);
+                break;
+
+            case GARAGEM:
+                updateGarage(screen, garage, garageIndex, nextBtn, prevBtn, backBtn);
+                drawGarage(garage, garageIndex, nextBtn, prevBtn, backBtn);
+                break;
+        }
+
+        EndDrawing();
+    }
+
+    CloseWindow();
+    return 0;
+}
