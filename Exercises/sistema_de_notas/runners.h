@@ -17,5 +17,6 @@ struct Aluno {
 void runAddAluno(vector<Aluno>& alunos); // Recebe um vetor de alunos por referência
 void runListarAlunos(const vector<Aluno>& alunos); // Recebe o vetor apenas para leitura (const), não vai alterar.
 void runMedia(const vector<Aluno>& alunos); // Também só lê os dados para calcular a média.
+void runProcurarAluno(const vector<Aluno>& aluno); 
 
 #endif

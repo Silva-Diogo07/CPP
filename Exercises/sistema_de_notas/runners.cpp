@@ -6,9 +6,9 @@ using namespace std;
 
 void runAddAluno(vector<Aluno>& alunos)
 {
-    Aluno a; // cria uma instância de Aluno para guardar os dados.
+    Aluno a;
 
-    cin.ignore(numeric_limits<streamsize>::max(), '\n'); // impa o buffer do teclado para evitar que o getline seja ignorado.
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
     cout << "Nome do aluno: ";
     getline(cin, a.nome);
@@ -18,28 +18,25 @@ void runAddAluno(vector<Aluno>& alunos)
         cin >> a.nota;
     } while (a.nota < 0 || a.nota > 20);
 
-    alunos.push_back(a); // adiciona o aluno ao vetor
+    alunos.push_back(a);
 
     cout << "Aluno adicionado com sucesso!\n";
 }
 
 void runListarAlunos(const vector<Aluno>& alunos)
 {
-
-    if (alunos.empty()) { // Verifica se o vetor está vazio
+    if (alunos.empty()) {
         cout << "Nenhum aluno cadastrado.\n";
         return;
     }
 
     cout << "\n--- Lista de Alunos ---\n";
 
-    for (int i = 0; i < alunos.size(); i++) { // Percorre todos os alunos
-        // Imprime os dados dos alunos
-        cout << "Aluno: " << alunos[i].nome         
-             << " | Nota: " << alunos[i].nota; 
+    for (const Aluno& aluno : alunos) {
+        cout << "Aluno " << aluno.nome
+             << " | Nota: " << aluno.nota;
 
-        // Decide se o aluno está aprovado ou reprovado           
-        if (alunos[i].nota >= 10)
+        if (aluno.nota >= 10)
             cout << " | Aprovado";
         else
             cout << " | Reprovado";
@@ -50,18 +47,43 @@ void runListarAlunos(const vector<Aluno>& alunos)
 
 void runMedia(const vector<Aluno>& alunos)
 {
-    // Verifica se há alunos.
     if (alunos.empty()) {
         cout << "Nenhum aluno cadastrado.\n";
         return;
     }
 
-    float soma = 0;
+    float soma = 0.0f;
 
-    // Percorre todos e somas as notas
-    for (int i = 0; i < alunos.size(); i++) {
-        soma += alunos[i].nota; // Calcula a média
+    for (const Aluno& aluno : alunos) {
+        soma += aluno.nota;
     }
 
-    cout << "Media da turma: " << soma / alunos.size() << endl;
+    cout << "Media da turma: " << soma / static_cast<float>(alunos.size()) << endl;
+}
+
+void runProcurarAluno(const vector<Aluno>& alunos)
+{
+    bool encontrado = false;
+    string aluno_procurado;
+
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+    cout << "Aluno a procurar: ";
+    getline(cin, aluno_procurado);
+
+    for (const Aluno& aluno : alunos) {
+        if (aluno.nome == aluno_procurado) {
+            cout << "Aluno encontrado: "
+                 << aluno.nome
+                 << " | Nota: "
+                 << aluno.nota
+                 << endl;
+            encontrado = true;
+            break;
+        }
+    }
+
+    if (!encontrado) {
+        cout << "Aluno nao encontrado.\n";
+    }
 }
