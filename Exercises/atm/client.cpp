@@ -255,3 +255,5 @@ void login()
 
     cout << "Conta bloqueada.\n";
 }
+
+/* TODO: Melhor organização de ficheiros | Gerar um ID único para cada cliente | Adicionar data e hora nas transações | transferências entre clientes e atualizar saldos e históricos de ambos os clientes| */
