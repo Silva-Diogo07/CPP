@@ -178,6 +178,7 @@ void menuConta(int indiceCliente)
     int opcao;
     do
     {
+        limparEcra();
         cout << "\n--- Menu da Conta ---\n";
         cout << "1 - Levantar\n";
         cout << "2 - Depositar\n";

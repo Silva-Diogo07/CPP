@@ -1,8 +1,20 @@
 #include <iostream>
 #include <vector>
+#include <thread>
+#include <chrono>
+
 #include "client.h"
 
 using namespace std;
+
+void limparEcra() {
+#ifdef _WIN32
+    system("cls");   // Windows
+#else
+    system("clear"); // Linux / macOS
+#endif
+}
+
 
 int main()
 {
@@ -10,7 +22,10 @@ int main()
 
     int opcaoInicial;
 
-    do {
+    do
+    {
+        this_thread::sleep_for(std::chrono::seconds(1));   
+        limparEcra();
         cout << "\n--- Multibanco ---\n";
         cout << "1 - Criar cliente\n";
         cout << "2 - Entrar\n";
@@ -41,5 +56,3 @@ int main()
 
     return 0;
 }
-
-/* TODO: Histório de Movimentos | Limprar ecrã entre menus | */

@@ -15,7 +15,7 @@ struct Cliente {
 };
 
 extern vector<Cliente> clientes;
-
+extern void limparEcra();
 
 void registo();
 // Procura um cliente pelo nome no vetor
