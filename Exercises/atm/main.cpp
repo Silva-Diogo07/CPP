@@ -1,82 +1,97 @@
 #include <iostream>
+#include <vector>
+#include "runners.h"
+
 using namespace std;
 
-void verSaldo(double saldo)
-{
-    cout << "Saldo atual: " << saldo << "£\n";
-}
+int main() {
+    vector<Cliente> clientes;
+    int opcaoInicial;
 
-void depositar(double &saldo)
-{
-    double valor_depósito;
-    cout << "Valor a depositar: ";
-    cin >> valor_depósito;
-
-    if (valor_depósito > 0)
-    {
-        saldo += valor_depósito;
-        cout << "Depósito concluido com sucesso!\n";
-    }
-    else
-    {
-        cout << "Valor inválido.\n";
-    }
-}
-
-void levantar(double &saldo)
-{
-    double valor_levantamento;
-    cout << "Valor a levantar: ";
-    cin >> valor_levantamento;
-
-    if (valor_levantamento > 0 && valor_levantamento <= saldo)
-    {
-        saldo -= valor_levantamento;
-        cout << "Levantamento realizado com sucesso!\n";
-    }
-    else
-    {
-        cout << "Saldo insuficiente ou valor inválido.\n";
-    }
-}
-
-int main()
-{
-    int opção;
-    double saldo = 0.0;
-
-    do
-    {
+    do {
         cout << "\n--- Multibanco ---\n";
-        cout << "1 - Depositar dinheiro\n";
-        cout << "2 - Sacar dinheiro\n";
-        cout << "3 - Consultar Saldo\n";
-        cout << "0 - Retirar cartão\n";
-        cin >> opção;
+        cout << "1 - Criar cliente\n";
+        cout << "2 - Entrar\n";
+        cout << "0 - Sair\n";
+        cout << "Opcao: ";
+        cin >> opcaoInicial;
+        cin.ignore();
 
-        switch (opção)
-        {
-            case 1:
-                depositar(saldo);
-                break;
-            case 2:
-                levantar(saldo);
-                break;
-            case 3:
-                verSaldo(saldo);
-                break;
-            case 0:
-                cout << "A sair...\n";
-                break;
-            default:
-                cout << "Opção inválida.\n";
+        if (opcaoInicial == 1) {
+            Cliente novo;
+
+            cout << "Nome: ";
+            getline(cin, novo.nome);
+
+            cout << "PIN: ";
+            cin >> novo.pin;
+            novo.saldo = 0.0;
+
+            clientes.push_back(novo);
+            cout << "Cliente criado com sucesso!\n";
         }
-    } while (opção != 0);
-    
+
+        else if (opcaoInicial == 2) {
+            string nome;
+            int pin;
+
+            cout << "Nome: ";
+            getline(cin, nome);
+
+            int indice = procurarCliente(clientes, nome);
+
+            if (indice == -1) {
+                cout << "Cliente nao encontrado.\n";
+                continue;
+            }
+
+            cout << "PIN: ";
+            cin >> pin;
+
+            if (pin != clientes[indice].pin) {
+                cout << "PIN incorreto.\n";
+                continue;
+            }
+
+            // MENU DO CLIENTE
+            int opcao;
+            do {
+                cout << "\n--- Conta de " << clientes[indice].nome << " ---\n";
+                cout << "1 - Depositar\n";
+                cout << "2 - Levantar\n";
+                cout << "3 - Ver saldo\n";
+                cout << "4 - Resetar saldo\n";
+                cout << "0 - Logout\n";
+                cout << "Opcao: ";
+                cin >> opcao;
+
+                switch (opcao) {
+                    case 1:
+                        depositar(clientes[indice]);
+                        break;
+                    case 2:
+                        levantar(clientes[indice]);
+                        break;
+                    case 3:
+                        verSaldo(clientes[indice]);
+                        break;
+                    case 4:
+                        resetSaldo(clientes[indice]);
+                        break;
+                    case 0:
+                        cout << "Logout efetuado.\n";
+                        break;
+                    default:
+                        cout << "Opcao invalida.\n";
+                }
+
+            } while (opcao != 0);
+        }
+
+    } while (opcaoInicial != 0);
+
+    cout << "Programa terminado.\n";
     return 0;
 }
 
-// TODO: Adicionar PIN
-// TODO: Ter vários clientes
-// TODO: Guardar dados em ficheiro
-// TODO: Histórico de movimentos
+/* TODO: Limitar tentativas de PIN | Evitar valores negativos de depósitios/levantamentos | Guardar clientes em ficheiro | Carregar clientes ao iniciar o programa | Atualizar ficheiro ao sair | Histório de Movimentos | Limprar ecrã entre menus | */
