@@ -6,6 +6,8 @@ using namespace std;
 
 int main()
 {
+    carregarClientes();
+
     int opcaoInicial;
 
     do {
@@ -35,7 +37,9 @@ int main()
 
     } while (opcaoInicial != 0);
 
+    guardarClientes();
+
     return 0;
 }
 
-/* TODO: Guardar clientes em ficheiro | Carregar clientes ao iniciar o programa | Atualizar ficheiro ao sair | Histório de Movimentos | Limprar ecrã entre menus | */
+/* TODO: Histório de Movimentos | Limprar ecrã entre menus | */

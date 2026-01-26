@@ -22,5 +22,7 @@ void registo();
 // Retorna o índice do cliente ou -1 se não existir
 int procurarCliente(const vector<Cliente>& clientes, const string& nome);
 void login();
+void carregarClientes();
+void guardarClientes();
 
 #endif

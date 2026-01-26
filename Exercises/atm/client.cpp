@@ -2,6 +2,8 @@
 #include <vector>
 #include <limits>
 
+#include <fstream> // Para trabalhar com ficheiros
+#include <sstream>
 #include "client.h"
 
 
@@ -9,6 +11,59 @@ using namespace std;
 
 // vetor global de clientes
 vector<Cliente> clientes;
+
+void guardarClientes()
+{
+    ofstream file("clientes.txt");
+
+    if (!file.is_open())
+    {
+        cout << "Erro ao abrir ficheiro para escrita.\n";
+        return;
+    }
+
+    /* Percorre todos os clientes , escreve uma linha por cliente */
+    for (const Cliente& c : clientes)
+    {
+        file << c.nome << ";"
+             << c.pin << ";"
+             <<c.saldo << endl;
+    }
+
+    file.close();
+}
+
+void carregarClientes()
+{
+    ifstream file("clientes.txt"); // abre o ficheiro 
+
+    if (!file.is_open())
+    {
+        return;
+    }
+
+    clientes.clear();
+
+    // Enquanto houver linhas no ficheiro vai ler uma de cada vez
+    string linha;
+    while (getline(file, linha))
+    {
+        stringstream ss(linha);
+        Cliente c;
+        string pinStr, saldoStr;
+
+        getline(ss, c.nome, ';');
+        getline(ss, pinStr, ';');
+        getline(ss, saldoStr, ';');
+
+        c.pin = stoi(pinStr); // stoi -> string -> int
+        c.saldo = stod(saldoStr); // stod -> string -> double
+
+        clientes.push_back(c); // guarda o cliente na memória
+    }
+
+    file.close();
+}
 
 // ==============================
 // Função para registar um cliente
@@ -41,11 +96,46 @@ int procurarCliente(const vector<Cliente>& clientes, const string& nome)
     return -1; // não encontrado
 }
 
+void guardarMovimento(string nomeCliente, string tipo, double valor)
+{
+    ofstream file(nomeCliente + "_movimentos.txt", ios::app);
+
+    if (!file.is_open())
+    {
+        cout << "Erro ao guardar movimento.\n";
+        return;
+    }
+
+    file << tipo << ";" << valor << endl;
+
+    file.close();
+}
+
+void mostrarMovimento(string nomeCliente)
+{
+    ifstream file(nomeCliente + "_movimentos.txt");
+
+    if (!file.is_open())
+    {
+        cout << "Sem movimento.\n";
+        return;
+    }
+
+    string linha;
+    while (getline(file, linha)) {
+        cout << linha << endl;
+    }
+
+    file.close();
+}
+
 // ==============================
 // Funções de levantamento e depósito
 // ==============================
 void depositar(int indiceCliente)
 {
+
+
     double valor;
     cout << "Valor a depositar: ";
     cin >> valor;
@@ -53,11 +143,13 @@ void depositar(int indiceCliente)
     {
         clientes[indiceCliente].saldo += valor;
         cout << "Deposito efetuado com sucesso!\n";
+        guardarMovimento(clientes[indiceCliente].nome, "DEPOSITO", valor);
     }
     else
     {
         cout << "Valor invalido!\n";
     }
+
 }
 
 void levantar(int indiceCliente)
@@ -69,6 +161,8 @@ void levantar(int indiceCliente)
     {
         clientes[indiceCliente].saldo -= valor;
         cout << "Levantamento efetuado com sucesso!\n";
+        guardarMovimento(clientes[indiceCliente].nome, "LEVANTAMENTO", valor);
+
     }
     else
     {
@@ -89,6 +183,7 @@ void menuConta(int indiceCliente)
         cout << "2 - Depositar\n";
         cout << "3 - Ver saldo\n";
         cout << "4 - Sair da conta\n";
+        cout << "5 - Histórico de transações\n";
         cout << "Opcao: ";
         cin >> opcao;
 
@@ -105,6 +200,9 @@ void menuConta(int indiceCliente)
                 break;
             case 4:
                 cout << "Saindo da conta...\n";
+                break;
+            case 5:
+                mostrarMovimento(clientes[indiceCliente].nome);
                 break;
             default:
                 cout << "Opcao invalida.\n";
