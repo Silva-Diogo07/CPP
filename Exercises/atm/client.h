@@ -1,8 +1,8 @@
-#ifndef RUNNERS_H
-#define RUNNERS_H
-
-#include <string>
+#include <iostream>
 #include <vector>
+
+#ifndef CLIENT_H
+#define CLIENT_H
 
 using namespace std;
 
@@ -14,14 +14,13 @@ struct Cliente {
     double saldo;  // Saldo da conta
 };
 
-// Funções do multibanco
-void depositar(Cliente &c);
-void levantar(Cliente &c);
-void verSaldo(const Cliente &c);
-void resetSaldo(Cliente &c);
+extern vector<Cliente> clientes;
 
+
+void registo();
 // Procura um cliente pelo nome no vetor
 // Retorna o índice do cliente ou -1 se não existir
 int procurarCliente(const vector<Cliente>& clientes, const string& nome);
+void login();
 
 #endif
