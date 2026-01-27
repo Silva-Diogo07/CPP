@@ -4,66 +4,12 @@
 
 #include <fstream> // Para trabalhar com ficheiros
 #include <sstream>
-#include "client.h"
 
+#include "client.h"
+#include "data/transactions/transactions.h"
 
 using namespace std;
 
-// vetor global de clientes
-vector<Cliente> clientes;
-
-void guardarClientes()
-{
-    ofstream file("clientes.txt");
-
-    if (!file.is_open())
-    {
-        cout << "Erro ao abrir ficheiro para escrita.\n";
-        return;
-    }
-
-    /* Percorre todos os clientes , escreve uma linha por cliente */
-    for (const Cliente& c : clientes)
-    {
-        file << c.nome << ";"
-             << c.pin << ";"
-             <<c.saldo << endl;
-    }
-
-    file.close();
-}
-
-void carregarClientes()
-{
-    ifstream file("clientes.txt"); // abre o ficheiro 
-
-    if (!file.is_open())
-    {
-        return;
-    }
-
-    clientes.clear();
-
-    // Enquanto houver linhas no ficheiro vai ler uma de cada vez
-    string linha;
-    while (getline(file, linha))
-    {
-        stringstream ss(linha);
-        Cliente c;
-        string pinStr, saldoStr;
-
-        getline(ss, c.nome, ';');
-        getline(ss, pinStr, ';');
-        getline(ss, saldoStr, ';');
-
-        c.pin = stoi(pinStr); // stoi -> string -> int
-        c.saldo = stod(saldoStr); // stod -> string -> double
-
-        clientes.push_back(c); // guarda o cliente na memória
-    }
-
-    file.close();
-}
 
 // ==============================
 // Função para registar um cliente
@@ -81,52 +27,6 @@ void registo()
     novo.saldo = 0; // saldo inicial
     clientes.push_back(novo);
     cout << "Cliente criado com sucesso!\n";
-}
-
-// ==============================
-// Função para procurar cliente
-// ==============================
-int procurarCliente(const vector<Cliente>& clientes, const string& nome)
-{
-    for (size_t i = 0; i < clientes.size(); ++i)
-    {
-        if (clientes[i].nome == nome)
-            return i;
-    }
-    return -1; // não encontrado
-}
-
-void guardarMovimento(string nomeCliente, string tipo, double valor)
-{
-    ofstream file(nomeCliente + "_movimentos.txt", ios::app);
-
-    if (!file.is_open())
-    {
-        cout << "Erro ao guardar movimento.\n";
-        return;
-    }
-
-    file << tipo << ";" << valor << endl;
-
-    file.close();
-}
-
-void mostrarMovimento(string nomeCliente)
-{
-    ifstream file(nomeCliente + "_movimentos.txt");
-
-    if (!file.is_open())
-    {
-        cout << "Sem movimento.\n";
-        return;
-    }
-
-    string linha;
-    while (getline(file, linha)) {
-        cout << linha << endl;
-    }
-
-    file.close();
 }
 
 // ==============================
@@ -255,5 +155,3 @@ void login()
 
     cout << "Conta bloqueada.\n";
 }
-
-/* TODO: Melhor organização de ficheiros | Gerar um ID único para cada cliente | Adicionar data e hora nas transações | transferências entre clientes e atualizar saldos e históricos de ambos os clientes| */

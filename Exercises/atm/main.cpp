@@ -4,6 +4,7 @@
 #include <chrono>
 
 #include "client.h"
+#include "data/data.h"
 
 using namespace std;
 
@@ -56,3 +57,5 @@ int main()
 
     return 0;
 }
+
+/* TODO: Melhor organização de ficheiros | Gerar um ID único para cada cliente | Adicionar data e hora nas transações | transferências entre clientes e atualizar saldos e históricos de ambos os clientes| */
