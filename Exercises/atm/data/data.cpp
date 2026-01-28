@@ -8,6 +8,8 @@ using namespace std;
 
 vector<Cliente> clientes;
 
+int ultimoID = 100100;
+
 void guardarClientes()
 {
     ofstream file("clientes.txt");
@@ -21,9 +23,10 @@ void guardarClientes()
     /* Percorre todos os clientes , escreve uma linha por cliente */
     for (const Cliente& c : clientes)
     {
-        file << c.nome << ";"
+        file << c.ID << ";" 
+             << c.nome << ";"
              << c.pin << ";"
-             <<c.saldo << endl;
+             << c.saldo << endl;
     }
 
     file.close();
@@ -56,9 +59,23 @@ void carregarClientes()
         c.saldo = stod(saldoStr); // stod -> string -> double
 
         clientes.push_back(c); // guarda o cliente na memória
+
+        if (c.ID > ultimoID)
+        {
+            ultimoID = c.ID;
+        }
     }
 
     file.close();
+}
+
+int gerarID()
+{
+    if (ultimoID >= 99'99'999)
+    {
+        throw std:: runtime_error("Limite máximo de ID's atingido");
+    }
+    return ++ultimoID;
 }
 
 // Função para procurar cliente

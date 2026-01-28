@@ -7,6 +7,7 @@
 
 #include "client.h"
 #include "data/transactions/transactions.h"
+#include "data/data.h"
 
 using namespace std;
 
@@ -17,6 +18,9 @@ using namespace std;
 void registo()
 {
     Cliente novo;
+
+    novo.ID = gerarID();
+
     cout << "Nome: ";
     cin.ignore(numeric_limits<streamsize>::max(), '\n'); // limpar buffer
     getline(cin, novo.nome);
@@ -27,6 +31,8 @@ void registo()
     novo.saldo = 0; // saldo inicial
     clientes.push_back(novo);
     cout << "Cliente criado com sucesso!\n";
+
+    guardarClientes();
 }
 
 // ==============================
