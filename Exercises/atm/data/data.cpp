@@ -34,40 +34,49 @@ void guardarClientes()
 
 void carregarClientes()
 {
-    ifstream file("clientes.txt"); // abre o ficheiro 
+    ifstream file("clientes.txt");
 
     if (!file.is_open())
-    {
         return;
-    }
 
     clientes.clear();
 
-    // Enquanto houver linhas no ficheiro vai ler uma de cada vez
     string linha;
     while (getline(file, linha))
     {
+        if (linha.empty()) continue; // ignora linhas vazias
+
         stringstream ss(linha);
         Cliente c;
-        string pinStr, saldoStr;
+        string idStr, pinStr, saldoStr;
 
+        // Ler todos os 4 campos: ID;Nome;PIN;Saldo
+        getline(ss, idStr, ';');
         getline(ss, c.nome, ';');
         getline(ss, pinStr, ';');
         getline(ss, saldoStr, ';');
 
-        c.pin = stoi(pinStr); // stoi -> string -> int
-        c.saldo = stod(saldoStr); // stod -> string -> double
+        try {
+            c.ID = stoi(idStr);
+            c.pin = stoi(pinStr);
+            c.saldo = stod(saldoStr);
+        } catch (const std::invalid_argument&) {
+            cerr << "Linha inválida ignorada: " << linha << endl;
+            continue; // ignora esta linha
+        } catch (const std::out_of_range&) {
+            cerr << "Linha com valor fora de alcance ignorada: " << linha << endl;
+            continue;
+        }
 
-        clientes.push_back(c); // guarda o cliente na memória
+        clientes.push_back(c);
 
         if (c.ID > ultimoID)
-        {
-            ultimoID = c.ID;
-        }
+            ultimoID = c.ID; // atualiza último ID
     }
 
     file.close();
 }
+
 
 int gerarID()
 {

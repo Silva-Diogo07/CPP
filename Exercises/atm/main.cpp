@@ -58,4 +58,4 @@ int main()
     return 0;
 }
 
-/* TODO: Adicionar data e hora nas transações | transferências entre clientes e atualizar saldos e históricos de ambos os clientes| */
+/* TODO: transferências entre clientes e atualizar saldos e históricos de ambos os clientes| */
