@@ -1,1 +1,1 @@
-Sistema de Notas de Alunos , Simulador de Caixa Multibanco, Gestor de Contactos
+Jogo da forca, Sistema de Biblioteca (Registar leitor, emprestar livro, devolver, multas caso não devolva), Sistema Escolar, Sistema de gestão de funcionários, Sistema de faturação simples, Sistema de carrinho de compras, Sistema de reservas de hotel, Sistema de bilheteira. 
